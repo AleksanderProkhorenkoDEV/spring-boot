@@ -16,6 +16,10 @@ public class Book {
         this.stock = stock;
     }
 
+    public Book(Book b) {
+        this(b.id, b.name, b.author_name, b.isbn, b.stock);
+    }
+
     public String getAuthor_name() {
         return author_name;
     }
@@ -55,6 +59,5 @@ public class Book {
     public void setStock(Integer stock) {
         this.stock = stock;
     }
-
 
 }
