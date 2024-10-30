@@ -5,6 +5,8 @@ import java.util.Arrays;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import booksApi.Models.Book;
@@ -18,12 +20,12 @@ public class BookController {
             new Book("3", "Cura Mortal", "James Dashner", "ISBN-5646523", 29)
     ));
 
-    @GetMapping("books")
+    @GetMapping("/books")
     public ArrayList getBooks() {
         return this.data;
     }
 
-    @GetMapping("books/{id}")
+    @GetMapping("/books/{id}")
     public Book getMethodName(@PathVariable String id) {
         Book select_book = null;
 
@@ -32,8 +34,14 @@ public class BookController {
                 select_book = new Book(book);
             }
         }
-        
+
         return select_book;
+    }
+
+    @PostMapping("/add-book")
+    public Book addBook(@RequestBody Book book) {
+        data.add(book);
+        return book;
     }
 
 }
