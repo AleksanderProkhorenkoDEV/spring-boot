@@ -3,6 +3,7 @@ package booksApi.Controllers;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,17 +47,30 @@ public class BookController {
     }
 
     @PutMapping("/update-book/{id}")
-    public Book putMethodName(@PathVariable String id, @RequestBody Book book) {
+    public Book updateBook(@PathVariable String id, @RequestBody Book book) {
         for (Book item : data) {
             if (item.getId().equals(id)) {
                 item.setName(book.getName());
                 item.setAuthor_name(book.getAuthor_name());
                 item.setIsbn(book.getIsbn());
                 item.setStock(book.getStock());
-                return item; 
+                return item;
             }
         }
-        return null; 
+        return null;
     }
 
+    @DeleteMapping("/delete-book/{id}")
+    public String deleteBook(@PathVariable String id) {
+
+        for (Book book : data) {
+            if (book.getId().equals(id)) {
+                data.remove(book);
+                return "Se ha eliminado con exito";
+            }
+        }
+
+        return "No se ha encontrado el libro que desea eliminar";
+
+    }
 }
