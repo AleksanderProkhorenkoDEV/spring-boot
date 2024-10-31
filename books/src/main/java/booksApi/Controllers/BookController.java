@@ -6,6 +6,7 @@ import java.util.Arrays;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -42,6 +43,20 @@ public class BookController {
     public Book addBook(@RequestBody Book book) {
         data.add(book);
         return book;
+    }
+
+    @PutMapping("/update-book/{id}")
+    public Book putMethodName(@PathVariable String id, @RequestBody Book book) {
+        for (Book item : data) {
+            if (item.getId().equals(id)) {
+                item.setName(book.getName());
+                item.setAuthor_name(book.getAuthor_name());
+                item.setIsbn(book.getIsbn());
+                item.setStock(book.getStock());
+                return item; 
+            }
+        }
+        return null; 
     }
 
 }
