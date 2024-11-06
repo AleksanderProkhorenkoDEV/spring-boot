@@ -9,11 +9,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import booksApi.Models.Book;
 
 @RestController
+@RequestMapping("/books")
 public class BookController {
 
     ArrayList<Book> data = new ArrayList<>(Arrays.asList(
@@ -22,12 +24,12 @@ public class BookController {
             new Book("3", "Cura Mortal", "James Dashner", "ISBN-5646523", 29)
     ));
 
-    @GetMapping("/books")
+    
     public ArrayList getBooks() {
         return this.data;
     }
 
-    @GetMapping("/books/{id}")
+    @GetMapping("/{id}")
     public Book getMethodName(@PathVariable String id) {
         Book select_book = null;
 
