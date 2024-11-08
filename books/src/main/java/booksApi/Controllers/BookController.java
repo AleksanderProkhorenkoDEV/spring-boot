@@ -1,8 +1,10 @@
 package booksApi.Controllers;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,14 +25,14 @@ public class BookController {
             new Book("2", "Las pruebas", "James Dashner", "ISBN-5648621", 49),
             new Book("3", "Cura Mortal", "James Dashner", "ISBN-5646523", 29)
     ));
-
     
-    public ArrayList getBooks() {
-        return this.data;
+    @GetMapping
+    public ResponseEntity<ArrayList> getBooks() {
+        return ResponseEntity.ok(this.data);
     }
 
     @GetMapping("/{id}")
-    public Book getMethodName(@PathVariable String id) {
+    public ResponseEntity<Book> getMethodName(@PathVariable String id) {
         Book select_book = null;
 
         for (Book book : data) {
@@ -39,40 +41,41 @@ public class BookController {
             }
         }
 
-        return select_book;
+        return ResponseEntity.ok(select_book);
     }
 
     @PostMapping("/add-book")
-    public Book addBook(@RequestBody Book book) {
+    public ResponseEntity<Book> addBook(@RequestBody Book book) {
         data.add(book);
-        return book;
+        URI location = URI.create("/books/" + book.getId());
+        return ResponseEntity.created(location).body(book);
     }
 
     @PutMapping("/update-book/{id}")
-    public Book updateBook(@PathVariable String id, @RequestBody Book book) {
+    public ResponseEntity<Book> updateBook(@PathVariable String id, @RequestBody Book book) {
         for (Book item : data) {
             if (item.getId().equals(id)) {
                 item.setName(book.getName());
                 item.setAuthor_name(book.getAuthor_name());
                 item.setIsbn(book.getIsbn());
                 item.setStock(book.getStock());
-                return item;
+                return ResponseEntity.ok(item);
             }
         }
-        return null;
+        return ResponseEntity.badRequest().body(null);
     }
 
     @DeleteMapping("/delete-book/{id}")
-    public String deleteBook(@PathVariable String id) {
+    public ResponseEntity<String> deleteBook(@PathVariable String id) {
 
         for (Book book : data) {
             if (book.getId().equals(id)) {
                 data.remove(book);
-                return "Se ha eliminado con exito";
+                return ResponseEntity.ok("Se ha eliminado con exito");
             }
         }
 
-        return "No se ha encontrado el libro que desea eliminar";
+        return ResponseEntity.badRequest().body("No se ha encontrado el libro para eliminarlo.");
 
     }
 }
