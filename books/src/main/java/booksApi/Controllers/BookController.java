@@ -1,6 +1,5 @@
 package booksApi.Controllers;
 
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -26,7 +25,7 @@ public class BookController {
             new Book("2", "Las pruebas", "James Dashner", "ISBN-5648621", 49),
             new Book("3", "Cura Mortal", "James Dashner", "ISBN-5646523", 29)
     ));
-    
+
     @GetMapping
     public ResponseEntity<ArrayList> getBooks() {
         return ResponseEntity.ok(this.data);
@@ -48,8 +47,8 @@ public class BookController {
     @PostMapping("/add-book")
     public ResponseEntity<Book> addBook(@RequestBody Book book) {
         data.add(book);
-        URI location = URI.create("/books/" + book.getId());
-        return ResponseEntity.created(location).body(book);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(book);
     }
 
     @PutMapping("/update-book/{id}")
