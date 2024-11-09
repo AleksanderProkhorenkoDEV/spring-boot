@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -52,7 +53,7 @@ public class BookController {
     }
 
     @PutMapping("/update-book/{id}")
-    public ResponseEntity<Book> updateBook(@PathVariable String id, @RequestBody Book book) {
+    public ResponseEntity<?> updateBook(@PathVariable String id, @RequestBody Book book) {
         for (Book item : data) {
             if (item.getId().equals(id)) {
                 item.setName(book.getName());
@@ -62,7 +63,7 @@ public class BookController {
                 return ResponseEntity.ok(item);
             }
         }
-        return ResponseEntity.badRequest().body(null);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No se ha actualizado ningun parametro porque no hubieron coincidencias.");
     }
 
     @DeleteMapping("/delete-book/{id}")
@@ -75,7 +76,7 @@ public class BookController {
             }
         }
 
-        return ResponseEntity.badRequest().body("No se ha encontrado el libro para eliminarlo.");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No se ha encontrado el libro que desea borrar.");
 
     }
 }
