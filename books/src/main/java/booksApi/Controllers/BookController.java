@@ -1,5 +1,6 @@
 package booksApi.Controllers;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import booksApi.Models.Book;
 
@@ -45,10 +47,18 @@ public class BookController {
     }
 
     @PostMapping("/add-book")
-    public ResponseEntity<Book> addBook(@RequestBody Book book) {
+    public ResponseEntity<?> addBook(@RequestBody Book book) {
         data.add(book);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(book);
+        // return ResponseEntity.status(HttpStatus.CREATED).body(book); Una forma de hacerla
+        //La forma correcta segun convenio
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(book.getId())
+                .toUri();
+
+        return ResponseEntity.created(location).build();
     }
 
     @PutMapping("/update-book/{id}")
