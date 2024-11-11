@@ -34,16 +34,16 @@ public class BookController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Book> getMethodName(@PathVariable String id) {
+    public ResponseEntity<?> getMethodName(@PathVariable String id) {
         Book select_book = null;
 
         for (Book book : data) {
             if (book.getId().equals(id)) {
                 select_book = new Book(book);
+                return ResponseEntity.ok(select_book);
             }
         }
-
-        return ResponseEntity.ok(select_book);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No se ha encontrado el libro");
     }
 
     @PostMapping("/add-book")
@@ -53,8 +53,8 @@ public class BookController {
         // return ResponseEntity.status(HttpStatus.CREATED).body(book); Una forma de hacerla
         //La forma correcta segun convenio
         URI location = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
+                .fromCurrentContextPath()
+                .path("/books/{id}")
                 .buildAndExpand(book.getId())
                 .toUri();
 
