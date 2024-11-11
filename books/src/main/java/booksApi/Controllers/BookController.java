@@ -19,7 +19,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import booksApi.Models.Book;
 
 @RestController
-@RequestMapping("/api/v1/books")
+@RequestMapping("/books")
 public class BookController {
 
     ArrayList<Book> data = new ArrayList<>(Arrays.asList(
