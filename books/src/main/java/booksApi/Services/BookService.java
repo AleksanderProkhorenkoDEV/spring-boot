@@ -1,4 +1,4 @@
-package booksApi.Services;
+package booksApi.services;
 
 public interface BookService {
     
