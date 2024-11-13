@@ -18,14 +18,14 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import booksApi.Models.Book;
-import booksApi.services.BooksServiceImpl;
+import booksApi.services.BookService;
 
 @RestController
 @RequestMapping("/books")
 public class BookController {
 
     @Autowired
-    private BooksServiceImpl bookService;
+    private BookService bookService;
 
     @GetMapping
     public ResponseEntity<List<Book>> getBooks() {
