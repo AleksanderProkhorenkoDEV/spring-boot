@@ -25,7 +25,7 @@ import booksApi.services.BookService;
 public class BookController {
 
     @Autowired
-    private BookService bookService;
+    private BookService bookService; //Esto sin el @Autowired es composición.
 
     @GetMapping
     public ResponseEntity<List<Book>> getBooks() {
