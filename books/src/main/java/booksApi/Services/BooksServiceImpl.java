@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import booksApi.Models.Book;
 
 @Service
-public class BooksServiceImpl {
+public class BooksServiceImpl implements BookService {
 
     ArrayList<Book> data = new ArrayList<>(Arrays.asList(
             new Book("1", "El corredor del laberinto", "James Dashner", "ISBN-135468", 50),
@@ -17,8 +17,8 @@ public class BooksServiceImpl {
             new Book("3", "Cura Mortal", "James Dashner", "ISBN-5646523", 29)
     ));
 
-
     // Obtener todos los libros
+    @Override
     public ArrayList<Book> getBooks() {
         return this.data;
     }
