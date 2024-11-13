@@ -24,6 +24,7 @@ public class BooksServiceImpl implements BookService {
     }
 
     // Obtener un libro por ID
+    @Override
     public Optional<Book> findBookById(String id) {
         return data.stream()
                 .filter(book -> book.getId().equals(id))
@@ -31,11 +32,13 @@ public class BooksServiceImpl implements BookService {
     }
 
     // Agregar un libro
+    @Override
     public void addBook(Book book) {
         data.add(book);
     }
 
     // Actualizar un libro
+    @Override
     public Optional<Book> updateBook(String id, Book bookDetails) {
         Optional<Book> bookToUpdate = findBookById(id);
         bookToUpdate.ifPresent(book -> {
@@ -48,6 +51,7 @@ public class BooksServiceImpl implements BookService {
     }
 
     // Eliminar un libro
+    @Override
     public boolean deleteBookById(String id) {
         return data.removeIf(book -> book.getId().equals(id));
     }
