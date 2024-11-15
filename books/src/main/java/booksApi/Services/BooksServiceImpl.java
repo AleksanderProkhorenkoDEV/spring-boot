@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Optional;
 
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import booksApi.Models.Book;
 
+@Primary
 @Service
 public class BooksServiceImpl implements BookService {
 
@@ -56,3 +58,4 @@ public class BooksServiceImpl implements BookService {
         return data.removeIf(book -> book.getId().equals(id));
     }
 }
+ 
