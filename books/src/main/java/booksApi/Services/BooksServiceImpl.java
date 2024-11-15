@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import booksApi.Models.Book;
 
 @Primary
-@Service
+@Service("bookResurceService")
 public class BooksServiceImpl implements BookService {
 
     ArrayList<Book> data = new ArrayList<>(Arrays.asList(
