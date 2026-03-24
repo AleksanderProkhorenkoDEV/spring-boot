@@ -13,6 +13,7 @@ import com.example.crudjpa.entities.Product;
 import org.springframework.http.HttpStatus;
 import java.util.Optional;
 import java.util.List;
+import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
 @RequestMapping("/api")
@@ -41,6 +42,14 @@ public class ProductController {
     @PostMapping("create")
     public ResponseEntity<Product> createProduct(@RequestBody Product product) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.save(product));
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody Product details) {
+        Optional<Product> product = service.update(id, details);
+        return product.isPresent()
+                ? ResponseEntity.ok(product.get())
+                : ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/delete/{id}")
