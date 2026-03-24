@@ -1,5 +1,9 @@
 package com.example.crudjpa.entities;
 
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Entity;
@@ -9,8 +13,16 @@ import jakarta.persistence.Id;
 public class Product {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @NotEmpty
     private String name;
-    private Double price;
+
+    @NotNull
+    @Positive
+    private Double price;   
+
+    @NotEmpty
+    @Size(min=4, max=255)
     private String description;
 
     public Long getId() {
