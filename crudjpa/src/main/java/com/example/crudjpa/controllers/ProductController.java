@@ -9,10 +9,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import com.example.crudjpa.Services.ProductService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+
 import com.example.crudjpa.entities.Product;
+
+import jakarta.validation.Valid;
+
 import org.springframework.http.HttpStatus;
 import java.util.Optional;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
@@ -40,12 +48,20 @@ public class ProductController {
     }
 
     @PostMapping("create")
-    public ResponseEntity<Product> createProduct(@RequestBody Product product) {
+    public ResponseEntity<?> createProduct(@Valid @RequestBody Product product, BindingResult result) {
+        if (result.hasFieldErrors()) {
+            return validation(result);
+        }
+
         return ResponseEntity.status(HttpStatus.CREATED).body(service.save(product));
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody Product details) {
+    public ResponseEntity<?> updateProduct(@PathVariable Long id, @Valid @RequestBody Product details, BindingResult result) {
+        if (result.hasFieldErrors()) {
+            return validation(result);
+        }
+
         Optional<Product> product = service.update(id, details);
         return product.isPresent()
                 ? ResponseEntity.ok(product.get())
@@ -58,5 +74,13 @@ public class ProductController {
         return product.isPresent()
                 ? ResponseEntity.ok(product.get())
                 : ResponseEntity.notFound().build();
+    }
+
+    public ResponseEntity<Map<String, String>> validation(BindingResult result) {
+        Map<String, String> errors = new HashMap<>();
+        result.getFieldErrors().forEach(err -> {
+            errors.put(err.getField(), err.getDefaultMessage());
+        });
+        return ResponseEntity.badRequest().body(errors);
     }
 }
