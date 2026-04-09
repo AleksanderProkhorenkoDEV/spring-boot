@@ -1,4 +1,4 @@
-package com.example.consumerservice.client;
+package com.example.consumerservice.product_client;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
